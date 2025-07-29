@@ -43,27 +43,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion</title>
-  <link rel="stylesheet" href="style.css" />
+   <link rel="stylesheet" href="css/style.css">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="form-container">
-    <h2>Connexion</h2>
+<body class="centered-page">
+   
+   
 
     <?php if ($message): ?>
       <p class="error"><?= $message ?></p>
     <?php endif; ?>
 
-    <form method="post">
-      <label for="nom">Nom d'utilisateur</label>
-      <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
-
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
-
+    <form class="centered-form"  method="post">
+         <h1>Connexion</h1>
+      <div>
+        <label for="nom">Nom d'utilisateur</label>
+        <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
+      </div>
+      <div>
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+      </div>
       <button type="submit">Se connecter</button>
+      <p class="form-link">Pas encore inscrit ? <a href="inscription.php">Créer un compte</a></p>
     </form>
-
-    <p class="link">Pas encore inscrit ? <a href="inscription.php">Créer un compte</a></p>
-  </div>
 </body>
 </html>

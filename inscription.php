@@ -63,35 +63,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Inscription</title>
-<link rel="stylesheet" href="style.css" />
+ <link rel="stylesheet" href="css/style.css">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="centered-page">
 
-<div class="form-container">
-  <h2>Inscription</h2>
+ 
 
   <?php if ($message): ?>
     <p style="text-align:center; color:<?= strpos($message,'✅') !== false ? 'green' : 'red' ?>; font-weight:bold;"><?= $message ?></p>
   <?php endif; ?>
 
-  <form method="post" action="">
-    <label for="nom">Nom complet *</label>
-    <input type="text" id="nom" name="nom" required>
-
-    <label for="tel">Numéro de téléphone *</label>
-    <input type="tel" id="tel" name="telephone" placeholder="+221771234567" pattern="^\+?\d{7,15}$" required>
-
-    <label for="email">Email (optionnel)</label>
-    <input type="email" id="email" name="email">
-
-    <label for="password">Mot de passe *</label>
-    <input type="password" id="password" name="password" required>
-
+  <form  class="centered-form"  method="post" action="">
+    <h1>Inscription</h1>
+    <div>
+        <label for="nom">Nom complet *</label>
+        <input type="text" id="nom" name="nom" required>
+    </div>
+    <div>
+        <label for="tel">Numéro de téléphone *</label>
+        <input type="tel" id="tel" name="telephone" placeholder="+221771234567" pattern="^\+?\d{7,15}$" required>
+   </div>
+    <div>
+        <label for="email">Email (optionnel)</label>
+        <input type="email" id="email" name="email">
+    </div>
+    <div>
+         <label for="password">Mot de passe *</label>
+         <input type="password" id="password" name="password" required>
+    </div>
     <button type="submit">S'inscrire</button>
+    <p class="form-link">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
   </form>
-
-  <p class="link">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
-</div>
 
 </body>
 </html>
