@@ -63,18 +63,110 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Inscription</title>
- <link rel="stylesheet" href="css/style.css">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  body {
+    background-color: #f4f6f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  form.centered-form {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 320px;
+    box-sizing: border-box;
+  }
+  form.centered-form h1 {
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+    color: #1e40af;
+  }
+  form.centered-form div {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  form.centered-form label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #334155;
+  }
+  form.centered-form input[type="text"],
+  form.centered-form input[type="tel"],
+  form.centered-form input[type="email"],
+  form.centered-form input[type="password"] {
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+  form.centered-form input[type="text"]:focus,
+  form.centered-form input[type="tel"]:focus,
+  form.centered-form input[type="email"]:focus,
+  form.centered-form input[type="password"]:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+  form.centered-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  form.centered-form button:hover {
+    background-color: #1e40af;
+  }
+  p.form-link {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: #64748b;
+  }
+  p.form-link a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  p.form-link a:hover {
+    text-decoration: underline;
+  }
+  p.message {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  p.message.success {
+    color: green;
+  }
+  p.message.error {
+    color: red;
+  }
+</style>
+
 </head>
 <body class="centered-page">
 
- 
-
   <?php if ($message): ?>
-    <p style="text-align:center; color:<?= strpos($message,'✅') !== false ? 'green' : 'red' ?>; font-weight:bold;"><?= $message ?></p>
+    <p class="message <?= strpos($message,'✅') !== false ? 'success' : 'error' ?>">
+      <?= htmlspecialchars($message) ?>
+    </p>
   <?php endif; ?>
 
-  <form  class="centered-form"  method="post" action="">
+  <form class="centered-form" method="post" action="">
     <h1>Inscription</h1>
     <div>
         <label for="nom">Nom complet *</label>
@@ -83,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div>
         <label for="tel">Numéro de téléphone *</label>
         <input type="tel" id="tel" name="telephone" placeholder="+221771234567" pattern="^\+?\d{7,15}$" required>
-   </div>
+    </div>
     <div>
         <label for="email">Email (optionnel)</label>
         <input type="email" id="email" name="email">

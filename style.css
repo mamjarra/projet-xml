@@ -1,3 +1,4 @@
+
 /* ============ GLOBAL ============ */
 body {
   margin: 0;
@@ -320,4 +321,90 @@ body {
   width: 250px;
   background-color: #f9f9f9;
   margin-bottom: 20px;
+}
+
+
+.centered-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f1f5f9;
+}
+
+.centered-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.centered-form h1 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.centered-form div {
+  margin-bottom: 15px;
+}
+
+.centered-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #334155;
+}
+
+.centered-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.centered-form input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.centered-form button {
+  width: 100%;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.centered-form button:hover {
+  background-color: #1e40af;
+}
+
+.form-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-link a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.form-link a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
