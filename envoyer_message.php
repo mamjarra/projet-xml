@@ -11,7 +11,7 @@ if ($editId) {
     // Modifier message existant
     foreach ($xml->messages->message as $msg) {
         if ((string)$msg['id'] === $editId && (string)$msg->expediteur['id'] === $expediteur) {
-            $msg->contenu = $contenu;
+            $msg->contenu = htmlspecialchars($contenu);
             $msg->date = date('c');
             break;
         }
@@ -34,15 +34,26 @@ if ($editId) {
     // Gestion fichier
     if (isset($_FILES['fichier']) && $_FILES['fichier']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = 'uploads/';
-        $fileName = basename($_FILES['fichier']['name']);
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        // Générer un nom de fichier unique pour éviter les collisions
+        $fileExt = pathinfo($_FILES['fichier']['name'], PATHINFO_EXTENSION);
+        $fileName = uniqid('file_', true) . '.' . $fileExt;
         $filePath = $uploadDir . $fileName;
-        move_uploaded_file($_FILES['fichier']['tmp_name'], $filePath);
-        $message->addChild('fichier', $filePath);
+
+        if (move_uploaded_file($_FILES['fichier']['tmp_name'], $filePath)) {
+            $message->addChild('fichier', $filePath);
+        } else {
+            // Optionnel : gérer l'erreur upload
+            // echo "Erreur lors de l'upload du fichier.";
+        }
     }
 }
 
 $xml->asXML('plateforme.xml');
 
-header('Location: index.php?dest=' . $destinataire);
+header('Location: index.php?dest=' . urlencode($destinataire));
 exit;
 ?>

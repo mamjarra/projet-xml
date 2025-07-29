@@ -170,10 +170,12 @@ body {
   padding: 10px;
   background-color: #e2e8f0;
   gap: 8px;
+  flex-wrap: wrap; /* pour éviter débordement sur petits écrans */
 }
 
 .input-area input[type="text"] {
-  width: 400px;
+  flex: 1 1 auto; /* prend tout l’espace possible */
+  min-width: 150px; /* ne devient pas trop petit */
   padding: 10px 14px;
   font-size: 14px;
   border-radius: 20px;
@@ -222,6 +224,16 @@ body {
   transform: translateY(-2px);
 }
 
+/* NOM DU FICHIER UPLOADÉ */
+#file-name {
+  font-style: italic;
+  color: #334155;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ============ PANEL DROIT ============ */
 .right-panel {
   width: 250px;
@@ -264,7 +276,6 @@ body {
 .block-button:hover {
   background-color: #b91c1c;
 }
-
 
 .message.highlighted {
   background-color: #fef3c7;

@@ -52,19 +52,70 @@ foreach ($xml->participants->participant as $p) {
     <a href="deconnexion.php" onclick="return confirm('Voulez-vous vous déconnecter ?')">🚪</a>
   </div>
 
-  <!-- Liste des contacts -->
+  
+      <!-- Conversations actives -->
   <div class="contacts-list">
-    <?php foreach ($xml->participants->participant as $contact): ?>
-      <?php if ($contact['id'] != $participantActif): ?>
-        <a href="?dest=<?php echo $contact['id']; ?>" style="text-decoration:none; color:black;">
-          <div class="contact">
-            <img src="profile.jfif" alt="Profil" />
-            <strong><?php echo $contact->nom; ?> <span class="flag">🇸🇳</span></strong>
-          </div>
-        </a>
-      <?php endif; ?>
-    <?php endforeach; ?>
+    <?php
+    $contactsAffiches = [];
+
+    foreach ($xml->messages->message as $msg) {
+        $exp = (string)$msg->expediteur['id'];
+        $dest = (string)$msg->destinataire['id'];
+
+        if ($exp === $participantActif) {
+            $idContact = $dest;
+        } elseif ($dest === $participantActif) {
+            $idContact = $exp;
+        } else {
+            continue;
+        }
+
+        if (in_array($idContact, $contactsAffiches)) continue;
+        $contactsAffiches[] = $idContact;
+
+        foreach ($xml->participants->participant as $c) {
+            if ((string)$c['id'] === $idContact) {
+                ?>
+                <a href="?dest=<?php echo $c['id']; ?>" style="text-decoration:none; color:black;">
+                  <div class="contact">
+                    <img src="profile.jfif" alt="Profil" />
+                    <strong><?php echo $c->nom; ?> <span class="flag">🇸🇳</span></strong>
+                  </div>
+                </a>
+                <?php
+                break;
+            }
+        }
+    }
+    ?>
   </div>
+
+<!-- Section Nouveau message -->
+<div class="contacts-list" style="border-top: 1px solid #ccc; margin-top: 20px; padding: 10px;">
+  <button onclick="toggleNouveauxContacts()" style="background: #3b82f6; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;">
+    ➕ Nouveau message
+  </button>
+
+  <div id="nouveauxContacts" style="display: none; margin-top: 10px;">
+    <?php
+    // Trouver tous les contacts sans conversation
+    $contactsAvecMessages = $contactsAffiches; // déjà rempli au-dessus
+    foreach ($xml->participants->participant as $contact) {
+        if ($contact['id'] != $participantActif && !in_array((string)$contact['id'], $contactsAvecMessages)) {
+            ?>
+            <a href="?dest=<?php echo $contact['id']; ?>" style="text-decoration:none; color:black;">
+              <div class="contact">
+                <img src="profile.jfif" alt="Profil" />
+                <strong><?php echo $contact->nom; ?> <span class="flag">🇸🇳</span></strong>
+              </div>
+            </a>
+            <?php
+        }
+    }
+    ?>
+  </div>
+</div>
+
 
   <!-- Zone de chat -->
   <div class="chat-area">
@@ -112,6 +163,8 @@ foreach ($xml->participants->participant as $p) {
       <input type="text" name="contenu" placeholder="Tapez votre message..." required>
       <input type="file" name="fichier" id="file-upload">
       <label for="file-upload">📎</label>
+      <span id="file-name" style="margin-left: 10px; font-style: italic; color: #555;"></span>
+
       <button type="submit">Envoyer</button>
     </form>
   </div>
@@ -138,7 +191,7 @@ foreach ($xml->participants->participant as $p) {
 </div>
 
 <!-- Bouton flottant pour rouvrir -->
-<button id="ouvrirBtn" onclick="ouvrirPanel()" style="position:fixed; bottom:20px; right:20px; background-color:#3b82f6; color:white; border:none; border-radius:50%; width:45px; height:45px; font-size:20px; cursor:pointer;">
+<button id="ouvrirBtn" onclick="ouvrirPanel()" style="position:fixed; bottom:60px; right:20px; background-color:#3b82f6; color:white; border:none; border-radius:50%; width:45px; height:45px; font-size:20px; cursor:pointer;">
   ℹ️
 </button>
 
@@ -215,6 +268,26 @@ function ouvrirPanel() {
   document.getElementById("rightPanel").style.display = "block";
   document.getElementById("ouvrirBtn").style.display = "none";
 }
+
+
+function toggleNouveauxContacts() {
+  var section = document.getElementById('nouveauxContacts');
+  section.style.display = (section.style.display === 'none') ? 'block' : 'none';
+}
+
+
+  const fileInput = document.getElementById('file-upload');
+  const fileNameSpan = document.getElementById('file-name');
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      fileNameSpan.textContent = fileInput.files[0].name;
+    } else {
+      fileNameSpan.textContent = '';
+    }
+  });
+
+
 </script>
 
 </body>
