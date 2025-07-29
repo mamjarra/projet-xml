@@ -1,4 +1,10 @@
 <?php 
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("Location: connexion.php");
+    exit();
+}
+
 $xml = simplexml_load_file('plateforme.xml');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,30 +59,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Créer le groupe</button>
       </form>
 
-        <h3 style="margin-top: 40px;">Groupes existants :</h3>
-  <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-    <?php foreach ($xml->groupes->groupe as $groupe): ?>
-      <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px; background-color: #f9f9f9;">
-        <h4 style="margin-top: 0;"><?php echo $groupe->nom; ?> <small style="color: gray;">(<?php echo $groupe['id']; ?>)</small></h4>
-        <p style="margin: 0 0 10px 0; font-weight: bold;">Membres :</p>
-        <ul style="padding-left: 20px; margin: 0;">
-          <?php foreach ($groupe->membres->participant as $membre): ?>
-            <?php
-              $nomMembre = '';
-              foreach ($xml->participants->participant as $p) {
-                if ((string)$p['id'] === (string)$membre['id']) {
-                  $nomMembre = $p->nom;
-                  break;
-                }
-              }
-            ?>
-            <li><?php echo $nomMembre; ?></li>
-          <?php endforeach; ?>
-        </ul>
+      <h3 style="margin-top: 40px;">Groupes existants :</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <?php foreach ($xml->groupes->groupe as $groupe): ?>
+          <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px; background-color: #f9f9f9;">
+            <h4 style="margin-top: 0;">
+              <a href="discussion_groupe.php?id=<?php echo $groupe['id']; ?>" style="text-decoration: none; color: #333;">
+                <?php echo $groupe->nom; ?>
+              </a>
+              <small style="color: gray;">(<?php echo $groupe['id']; ?>)</small>
+            </h4>
+            <p style="margin: 0 0 10px 0; font-weight: bold;">Membres :</p>
+            <ul style="padding-left: 20px; margin: 0;">
+              <?php foreach ($groupe->membres->participant as $membre): ?>
+                <?php
+                  $nomMembre = '';
+                  foreach ($xml->participants->participant as $p) {
+                    if ((string)$p['id'] === (string)$membre['id']) {
+                      $nomMembre = $p->nom;
+                      break;
+                    }
+                  }
+                ?>
+                <li><?php echo $nomMembre; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endforeach; ?>
       </div>
-    <?php endforeach; ?>
-  </div>
-
     </div>
   </div>
 </div>
